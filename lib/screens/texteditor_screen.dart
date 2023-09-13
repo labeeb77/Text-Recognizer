@@ -29,6 +29,7 @@ class _TextEditorScreenState extends State<TextEditorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: Colors.deepPurple[100],
         title: const Text("Details"),
       ),
       body: Column(
