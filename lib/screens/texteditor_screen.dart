@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:text_recognizer/screens/textediting_screen.dart';
@@ -30,7 +31,8 @@ class _TextEditorScreenState extends State<TextEditorScreen> {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.deepPurple[100],
-        title: const Text("Details"),
+        title:  Text("Details",style: GoogleFonts.prompt(fontSize: 20)),
+        centerTitle: true,
       ),
       body: Column(
         children: [

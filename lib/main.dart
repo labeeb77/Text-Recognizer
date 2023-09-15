@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -54,12 +55,15 @@ class AppWrapper extends StatelessWidget {
     final themeNotifier = Provider.of<ThemeNotifier>(context);
 
     return MaterialApp(
+      
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       themeMode: themeNotifier.themeMode,
       theme: MyThemes.lightTheme,
+      
       darkTheme: MyThemes.darkTheme,
       home: SplashScreen(),
+      builder: EasyLoading.init(),
     );
   }
 }

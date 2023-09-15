@@ -2,7 +2,9 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_ml_kit/google_ml_kit.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,16 +40,17 @@ class TextRecognizerProvider with ChangeNotifier{
 
    Future<void> pickImage(BuildContext context) async {
     final picker = ImagePicker();
+     
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+       EasyLoading.show(status: 'loading...');
       cropImage(context,pickedFile.path);
     }
   }
-
- Future<void> cropImage(BuildContext context, String imagePath) async {
-  final adsProvider = Provider.of<AdsProvider>(context,listen: false);
-  adsProvider.loadInterstitialAd();
+Future<void> cropImage(BuildContext context, String imagePath) async {
+  final adsProvider = Provider.of<AdsProvider>(context, listen: false);
+  adsProvider.loadRewardedAd();
   CroppedFile? croppedImage = await ImageCropper().cropImage(
     sourcePath: imagePath,
     aspectRatio: const CropAspectRatio(
@@ -59,54 +62,46 @@ class TextRecognizerProvider with ChangeNotifier{
 
   if (croppedImage != null) {
     File imageFile = File(croppedImage.path); // Convert CroppedFile to File
-  setSelectedImage(imageFile);
+    setSelectedImage(imageFile);
 
-   // Show the ad before navigating to the TextEditorScreen
-    if (adsProvider.isAdLoaded) {
-    await adsProvider. interstitialAd.show();
-    }
-    recognizeText(context);
-  
-    
+    // Show the ad before navigating to the TextEditorScreen
+    adsProvider.showRewardedAd();
+    await recognizeText(context);
+     EasyLoading.dismiss();
   }
 }
 
-
-
 Future<void> recognizeText(BuildContext context) async {
-    log('entered to recognizer');
-    if (selectedImage != null) {
-      final inputImage = InputImage.fromFilePath(selectedImage!.path);
-      final textRecognizer = GoogleMlKit.vision.textRecognizer();
+  log('entered to recognizer');
+  if (selectedImage != null) {
+    final inputImage = InputImage.fromFilePath(selectedImage!.path);
+    final textRecognizer = GoogleMlKit.vision.textRecognizer();
 
-      try {
-        final RecognizedText visionText =
-            await textRecognizer.processImage(inputImage);
+    try {
+      final RecognizedText visionText =
+          await textRecognizer.processImage(inputImage);
 
-        final recognizedText = visionText.text;
-        saveRecognizedText(recognizedText,selectedImage!);
-       
-    retrieveDataFromHive();
+      final recognizedText = visionText.text;
+      saveRecognizedText(recognizedText, selectedImage!);
 
-        textRecognizer.close();
+      retrieveDataFromHive();
 
-        
+      textRecognizer.close();
 
-        
-
-        // Navigate to the TextEditorScreen and pass the recognized text
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) =>
-                TextEditorScreen(recognizedText: recognizedText,selectedImage: selectedImage!),
+      // Navigate to the TextEditorScreen and pass the recognized text
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => TextEditorScreen(
+            recognizedText: recognizedText,
+            selectedImage: selectedImage!,
           ),
-        );
-      } catch (e) {
-        log('Error recognizing text: $e');
-      }
+        ),
+      );
+    } catch (e) {
+      log('Error recognizing text: $e');
     }
   }
-
+}
 
     // Save to Hive
 

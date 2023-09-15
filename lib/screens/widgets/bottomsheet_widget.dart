@@ -35,8 +35,31 @@ Future<void> showBottomSheetWidget(BuildContext context) async {
               leading: const Icon(Icons.restore),
               title: const Text('Reset app'),
               onTap: () {
-                Provider.of<TextRecognizerProvider>(context, listen: false)
-                    .clearDataFromHive();
+                showDialog(
+                    context: context,
+                    builder: (ctx) => AlertDialog(
+                          title: const Text(
+                            "Alert!",
+                          ),
+                          content: const Text("Are you sure to reset app?"),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("No")),
+                            TextButton(
+                                onPressed: () {
+                                  Provider.of<TextRecognizerProvider>(context,
+                                          listen: false)
+                                      .clearDataFromHive();
+                                  Navigator.pop(context);
+                                },
+                                child: const Text(
+                                  "Yes",
+                                ))
+                          ],
+                        ));
               },
             ),
             const ListTile(

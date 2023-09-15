@@ -5,7 +5,7 @@
 
 
     <application
-        android:label="text_recognizer"
+        android:label="Text Recognizer"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
@@ -42,7 +42,7 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-    android:value="ca-app-pub-3906639646886799~3004634022"/>    
+    android:value="ca-app-pub-3906639646886799~8472551302"/>    
 
     </application>
 </manifest>
