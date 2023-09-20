@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:provider/provider.dart';
@@ -62,98 +61,101 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
               )
-            : ListView.builder(
-                itemCount: provider.recognizedTextList.length,
-                itemBuilder: (context, index) {
-                  final recognizedTextModel =
-                      provider.recognizedTextList[index];
-                  final imageFile = File(recognizedTextModel.imagePath);
-
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => TextEditorScreen(
-                            recognizedText: recognizedTextModel.text,
-                            selectedImage: imageFile,
-                          ),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15),
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(
-                              12), // Adjust the radius as needed
-                        ),
-                        elevation: 5,
-                        margin: const EdgeInsets.symmetric(vertical: 8),
-                        child: ListTile(
-                          leading: Container(
-                            width: 60,
-                            height: 60,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              image: DecorationImage(
-                                image: FileImage(imageFile),
-                                fit: BoxFit.cover,
-                              ),
+            : Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: ListView.builder(
+                  itemCount: provider.recognizedTextList.length,
+                  itemBuilder: (context, index) {
+                    final recognizedTextModel =
+                        provider.recognizedTextList[index];
+                    final imageFile = File(recognizedTextModel.imagePath);
+            
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => TextEditorScreen(
+                              recognizedText: recognizedTextModel.text,
+                              selectedImage: imageFile,
                             ),
                           ),
-                          title: Text(
-                            recognizedTextModel.text,
-                            style: const TextStyle(fontSize: 16),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15,),
+                        child: Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                12), // Adjust the radius as needed
                           ),
-                          subtitle: Row(
-                            children: [
-                              Text(
-                                provider.formatTimestamp(
-                                    recognizedTextModel.timestamp),
-                                style: const TextStyle(
-                                  color: Colors.grey,
+                          elevation: 5,
+                          margin: const EdgeInsets.symmetric(vertical: 8),
+                          child: ListTile(
+                            leading: Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                  image: FileImage(imageFile),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              const Spacer(),
-                              IconButton(
-                                onPressed: () {
-                                  Clipboard.setData(ClipboardData(
-                                    text: recognizedTextModel.text,
-                                  ));
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                        "Text copied to clipboard",
+                            ),
+                            title: Text(
+                              recognizedTextModel.text,
+                              style: const TextStyle(fontSize: 16),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                  provider.formatTimestamp(
+                                      recognizedTextModel.timestamp),
+                                  style: const TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                const Spacer(),
+                                IconButton(
+                                  onPressed: () {
+                                    Clipboard.setData(ClipboardData(
+                                      text: recognizedTextModel.text,
+                                    ));
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          "Text copied to clipboard",
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                                icon: Icon(
-                                  Icons.copy,
-                                  size: 20,
-                                  color: Colors.deepPurple[100],
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.copy,
+                                    size: 20,
+                                    color: Colors.deepPurple[100],
+                                  ),
                                 ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  Share.share(recognizedTextModel.text);
-                                },
-                                icon: Icon(
-                                  Icons.share,
-                                  size: 20,
-                                  color: Colors.deepPurple[100],
+                                IconButton(
+                                  onPressed: () {
+                                    Share.share(recognizedTextModel.text);
+                                  },
+                                  icon: Icon(
+                                    Icons.share,
+                                    size: 20,
+                                    color: Colors.deepPurple[100],
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                ),
+            ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.deepPurple[100],

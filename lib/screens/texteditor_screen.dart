@@ -30,8 +30,8 @@ class _TextEditorScreenState extends State<TextEditorScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.deepPurple[100],
-        title:  Text("Details",style: GoogleFonts.prompt(fontSize: 20)),
+        backgroundColor: Colors.deepPurple[100],
+        title: Text("Details", style: GoogleFonts.prompt(fontSize: 20)),
         centerTitle: true,
       ),
       body: Column(
@@ -47,11 +47,10 @@ class _TextEditorScreenState extends State<TextEditorScreen> {
                         height: 100,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Colors.purple, // Border color
-                            width: 1.0, // Border width
+                            color: Colors.purple,
+                            width: 1.0,
                           ),
-                          borderRadius:
-                              BorderRadius.circular(10.0), // Border radius
+                          borderRadius: BorderRadius.circular(10.0),
                         ),
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(10.0),
@@ -108,7 +107,6 @@ class _TextEditorScreenState extends State<TextEditorScreen> {
               ),
               IconButton(
                 onPressed: () {
-                  // Copy the text to the clipboard
                   Clipboard.setData(ClipboardData(text: allText));
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -120,7 +118,6 @@ class _TextEditorScreenState extends State<TextEditorScreen> {
               ),
               IconButton(
                 onPressed: () {
-                  // Share the text
                   Share.share(allText);
                 },
                 icon: const Icon(Icons.share),

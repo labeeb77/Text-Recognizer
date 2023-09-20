@@ -45,9 +45,9 @@ class _TextEditScreenState extends State<TextEditScreen> {
         padding: const EdgeInsets.all(16.0),
         child: TextField(
             controller: textEditingController,
-            textAlign: TextAlign.start, // Align text to the left (start)
+            textAlign: TextAlign.start, 
             textAlignVertical: TextAlignVertical.top,
-            maxLines: null, // Allow multiple lines
+            maxLines: null, 
             expands: true,
             decoration: InputDecoration(
               labelText: "Edit text...",

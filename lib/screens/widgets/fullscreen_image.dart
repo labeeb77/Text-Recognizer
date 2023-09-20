@@ -13,7 +13,7 @@ class FullScreenImage extends StatelessWidget {
       body: Center(
         child: Image.file(
           imageFile,
-          // You can customize the width, height, and fit properties here
+         
         ),
       ),
     );
